@@ -1,0 +1,43 @@
+
+============================================================
+  1. Overall Metric Averages
+============================================================
+  semantic_similarity             mean=0.8280  std=0.1051  [0.3110, 0.9759]
+  entity_change_rate              mean=0.2684  std=0.3148  [0.0000, 1.0000]
+  lexical_overlap                 mean=0.3795  std=0.1529  [0.0434, 0.7930]
+  response_length_variance        mean=35.6262  std=53.2637  [0.1600, 275.7600]
+
+============================================================
+  2. Metric Averages by Language
+============================================================
+          semantic_similarity  entity_change_rate  lexical_overlap  response_length_variance
+language                                                                                    
+ar                     0.7900              0.2477           0.3476                   22.2232
+en                     0.8442              0.2875           0.3546                   53.3880
+es                     0.8170              0.3000           0.4027                   39.8976
+hi                     0.8609              0.1977           0.4131                   26.9960
+
+============================================================
+  3. Top-10 Most Unstable Prompts  (lowest semantic_similarity)
+============================================================
+ prompt_id language  semantic_similarity  entity_change_rate  lexical_overlap
+        98       hi             0.311036            0.250000         0.043367
+        84       es             0.472957            0.250000         0.398641
+        72       hi             0.474447            0.000000         0.164202
+        13       ar             0.482633            0.500000         0.226032
+        20       ar             0.495700            0.666667         0.307802
+         7       en             0.511565            0.500000         0.119240
+        15       ar             0.528721                 NaN         0.189044
+        56       ar             0.553964            0.750000         0.413922
+         7       ar             0.567467            0.250000         0.181438
+        46       es             0.571048            0.000000         0.268174
+
+============================================================
+  4. Dataset Statistics
+============================================================
+  Total unique prompts    : 100
+  Total responses         : 2000
+  Languages               : ar, en, es, hi
+  Variant types           : base, context, instruction, paraphrase, short
+  Groups (prompt × lang)  : 400
+  Null entity_change_rate : 78

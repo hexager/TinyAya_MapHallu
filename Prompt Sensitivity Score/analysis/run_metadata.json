@@ -1,0 +1,15 @@
+{
+  "run_id": "run_20260316T175410_eb5c4a5b",
+  "model_id": "tiny-aya-global",
+  "languages": [
+    "en",
+    "es",
+    "hi",
+    "ar"
+  ],
+  "num_prompts": 100,
+  "num_variants": 5,
+  "total_expected_calls": 2000,
+  "experiment_version": "1.0.0",
+  "timestamp": "2026-03-16T17:54:10.968161+00:00"
+}
