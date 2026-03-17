@@ -27,7 +27,7 @@ def load_mkqa(languages: list[str], n_samples: int = 100) -> pd.DataFrame:
     Drops any question where ANY requested language is missing so every
     row in the output has complete coverage — no partial rows downstream.
     """
-    dataset = load_dataset("apple/mkqa", split="test")
+    dataset = load_dataset("apple/mkqa", split="test", trust_remote_code=True)
 
     rows = []
     # Iterate over more than n_samples to account for rows we drop
