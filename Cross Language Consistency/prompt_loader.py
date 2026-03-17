@@ -46,8 +46,8 @@ def load_mkqa(languages: list[str], n_samples: int = 100) -> pd.DataFrame:
                         break
                     row[f"prompt_{lang}"] = query
 
-                    answers = item["answers"].get(lang) or {}
-                    aliases = answers.get("aliases") or []
+                    answers = item["answers"].get(lang) or []
+                    aliases = answers[0].get("aliases") or [] if answers else []
                     row[f"answer_{lang}"] = aliases[0] if aliases else None
 
                 if valid:
