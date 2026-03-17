@@ -2,7 +2,9 @@
 
 import pandas as pd
 from datasets import load_dataset
-
+import gzip
+import urllib.request
+import json
 
 # Languages written out in full for the instruction wrapper
 LANG_NAMES = {
@@ -21,37 +23,37 @@ LANG_NAMES = {
 
 def load_mkqa(languages: list[str], n_samples: int = 100) -> pd.DataFrame:
     """
-    MKQA: multilingual QA with verified ground truth across 26 languages.
-    Each row is one question with prompt and answer columns per language.
-
-    Drops any question where ANY requested language is missing so every
-    row in the output has complete coverage — no partial rows downstream.
+    Loads MKQA directly from Apple's GitHub release — bypasses the broken
+    HuggingFace loading script entirely.
     """
-    dataset = load_dataset("apple/mkqa", split="test", trust_remote_code=True)
+    url = "https://github.com/apple/ml-mkqa/raw/main/dataset/mkqa.jsonl.gz"
+    print("[mkqa] Downloading from Apple GitHub...")
 
     rows = []
-    # Iterate over more than n_samples to account for rows we drop
-    for item in dataset.select(range(min(n_samples * 3, len(dataset)))):
-        row = {
-            "prompt_id": str(item["example_id"]),
-            "source":    "mkqa",
-        }
-        valid = True
-        for lang in languages:
-            query = item["queries"].get(lang)
-            if not query:
-                valid = False
-                break
-            row[f"prompt_{lang}"] = query
+    with urllib.request.urlopen(url) as response:
+        with gzip.GzipFile(fileobj=response) as f:
+            for line in f:
+                item = json.loads(line.decode("utf-8"))
+                row = {
+                    "prompt_id": str(item["example_id"]),
+                    "source":    "mkqa",
+                }
+                valid = True
+                for lang in languages:
+                    query = item["queries"].get(lang)
+                    if not query:
+                        valid = False
+                        break
+                    row[f"prompt_{lang}"] = query
 
-            answers = item["answers"].get(lang) or {}
-            aliases = answers.get("aliases") or []
-            row[f"answer_{lang}"] = aliases[0] if aliases else None
+                    answers = item["answers"].get(lang) or {}
+                    aliases = answers.get("aliases") or []
+                    row[f"answer_{lang}"] = aliases[0] if aliases else None
 
-        if valid:
-            rows.append(row)
-        if len(rows) >= n_samples:
-            break
+                if valid:
+                    rows.append(row)
+                if len(rows) >= n_samples:
+                    break
 
     df = pd.DataFrame(rows)
     print(f"[mkqa] Loaded {len(df)} prompts with full coverage for: {languages}")
