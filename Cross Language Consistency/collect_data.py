@@ -31,7 +31,7 @@ def run_collection(prompts_df: pd.DataFrame, client: AyaClient) -> list[dict]:
         1
         for _ in prompts_df.itertuples()
         for model_key in MODELS
-        for lang in LANGUAGES[model_key]
+        for lang in LANGUAGES
         if f"prompt_{lang}" in prompts_df.columns
     )
     done = 0
