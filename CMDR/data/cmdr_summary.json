@@ -1,0 +1,82 @@
+{
+  "Label Disagreement": {
+    "Mean": 0.18033333333333335,
+    "Variance": 0.1478132222222222
+  },
+  "Confidence Disagreement": {
+    "Mean": 0.01576394683352809,
+    "Variance": 0.00021271948551209192
+  },
+  "Pairwise": {
+    "en-ar": {
+      "n": 300,
+      "label_disagreement_mean": 0.17333333333333334,
+      "label_disagreement_variance": 0.1432888888888889,
+      "confidence_distance_mean": 0.017135785490707198,
+      "confidence_distance_variance": 0.0002099233463157187
+    },
+    "en-de": {
+      "n": 300,
+      "label_disagreement_mean": 0.15666666666666668,
+      "label_disagreement_variance": 0.13212222222222222,
+      "confidence_distance_mean": 0.013352012472020764,
+      "confidence_distance_variance": 0.00017103179809023415
+    },
+    "en-es": {
+      "n": 300,
+      "label_disagreement_mean": 0.15666666666666668,
+      "label_disagreement_variance": 0.13212222222222222,
+      "confidence_distance_mean": 0.013069528694205192,
+      "confidence_distance_variance": 0.0001752815695763385
+    },
+    "en-fr": {
+      "n": 300,
+      "label_disagreement_mean": 0.14,
+      "label_disagreement_variance": 0.1204,
+      "confidence_distance_mean": 0.013257202794588323,
+      "confidence_distance_variance": 0.00016404091303241788
+    },
+    "en-hi": {
+      "n": 300,
+      "label_disagreement_mean": 0.21,
+      "label_disagreement_variance": 0.16590000000000005,
+      "confidence_distance_mean": 0.017603086345412352,
+      "confidence_distance_variance": 0.00022193142083491046
+    },
+    "en-sw": {
+      "n": 300,
+      "label_disagreement_mean": 0.23333333333333334,
+      "label_disagreement_variance": 0.1788888888888889,
+      "confidence_distance_mean": 0.01626874896712156,
+      "confidence_distance_variance": 0.00023041237196235668
+    },
+    "en-th": {
+      "n": 300,
+      "label_disagreement_mean": 0.17333333333333334,
+      "label_disagreement_variance": 0.14328888888888888,
+      "confidence_distance_mean": 0.017541178214968853,
+      "confidence_distance_variance": 0.00022751952690048229
+    },
+    "en-tr": {
+      "n": 300,
+      "label_disagreement_mean": 0.20666666666666667,
+      "label_disagreement_variance": 0.16395555555555555,
+      "confidence_distance_mean": 0.01734881934126235,
+      "confidence_distance_variance": 0.00023323872290238485
+    },
+    "en-vi": {
+      "n": 300,
+      "label_disagreement_mean": 0.16,
+      "label_disagreement_variance": 0.1344,
+      "confidence_distance_mean": 0.01616779584117275,
+      "confidence_distance_variance": 0.0002328203805695998
+    },
+    "en-zh": {
+      "n": 300,
+      "label_disagreement_mean": 0.19333333333333333,
+      "label_disagreement_variance": 0.15595555555555551,
+      "confidence_distance_mean": 0.015895310173821578,
+      "confidence_distance_variance": 0.0002302637995493
+    }
+  }
+}
