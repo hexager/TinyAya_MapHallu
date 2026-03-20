@@ -9,6 +9,7 @@ dependencies = [
     "datasets>=4.7.0",
     "matplotlib>=3.10.8",
     "numpy>=2.4.3",
+    "pandas>=3.0.1",
     "python-dotenv>=1.2.2",
     "seaborn>=0.13.2",
     "torch>=2.10.0",
