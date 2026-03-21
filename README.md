@@ -64,10 +64,19 @@ python run.py [OPTIONS]
 ### Examples
 
 ```bash
-# Base experiment: 1 model, 2 languages, XNLI, 100 questions
-python run.py --models tiny-aya-global --languages en fr --datasets xnli --experiments base --num-dataset-samples 100
+# Full run for a single model — all languages, all samples, 2 reps
+# (hi and sw are XNLI-only; zh auto-maps to zh_cn for MKQA)
+python run.py --models tiny-aya-global \
+              --languages ar de en ru th zh hi sw \
+              --datasets xnli mkqa \
+              --experiments base pss \
+              --num-dataset-samples all \
+              --nreps 2
 
-# Multiple models and datasets
+# Quick test: 1 model, 1 language, 5 samples
+python run.py --models tiny-aya-global --languages en --datasets xnli --experiments base --num-dataset-samples 5
+
+# Multiple models
 python run.py --models tiny-aya-global tiny-aya-fire --languages en ar zh --datasets xnli mkqa --experiments base
 
 # PSS with 3 repeated calls per question

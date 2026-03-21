@@ -29,6 +29,9 @@ MKQA_LANGUAGES = {
     "vi", "zh_cn", "zh_hk", "zh_tw",
 }
 
+# Common aliases that map to actual MKQA language keys
+_LANGUAGE_ALIASES = {"zh": "zh_cn"}
+
 
 def _has_valid_gold_answer(ans: list) -> bool:
     """Return True if the answer list contains at least one usable gold string."""
@@ -98,20 +101,26 @@ def load_mkqa(languages: list[str], num_samples: int | None = 500, seed: int = 4
     else:
         sampled = random.sample(raw, min(num_samples, len(raw)))
 
-    unsupported = [l for l in languages if l not in MKQA_LANGUAGES]
+    # Resolve aliases (e.g. zh -> zh_cn) before validation
+    resolved = [_LANGUAGE_ALIASES.get(l, l) for l in languages]
+    for orig, res in zip(languages, resolved):
+        if orig != res:
+            logger.info("MKQA: mapping '%s' -> '%s'", orig, res)
+
+    unsupported = [l for l in resolved if l not in MKQA_LANGUAGES]
     if unsupported:
         logger.warning("Skipping languages not available in MKQA: %s. Valid: %s", unsupported, sorted(MKQA_LANGUAGES))
-    valid_languages = [l for l in languages if l in MKQA_LANGUAGES]
+    valid_languages = [l for l in resolved if l in MKQA_LANGUAGES]
 
     rows = []
     for idx, s in enumerate(sampled):
         queries = s.get("queries") or {}
         answers = s.get("answers") or {}
         for lang in valid_languages:
-            q = (queries.get(lang) or queries.get("en") or "").strip()
+            q = (queries.get(lang) or "").strip()
             if not q:
                 continue
-            ans = answers.get(lang) or answers.get("en") or []
+            ans = answers.get(lang) or []
             if not _has_valid_gold_answer(ans):
                 continue
             rows.append({
