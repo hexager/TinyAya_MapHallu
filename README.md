@@ -73,6 +73,14 @@ python run.py --models tiny-aya-global \
               --num-dataset-samples all \
               --nreps 2
 
+# Quick full test : all languages , 1 model, nreps 
+python run.py --models tiny-aya-global \
+              --languages ar de en ru th zh hi sw \
+              --datasets xnli mkqa \
+              --experiments base pss \
+              --num-dataset-samples 2 \
+              --nreps 2
+
 # Quick test: 1 model, 1 language, 5 samples
 python run.py --models tiny-aya-global --languages en --datasets xnli --experiments base --num-dataset-samples 5
 

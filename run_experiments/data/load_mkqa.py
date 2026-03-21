@@ -8,9 +8,14 @@ Returns a flat list of sample dicts with consistent schema.
 import gzip
 import json
 import logging
+import os
 import random
 import urllib.request
 from typing import List
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +62,7 @@ def _load_mkqa_raw(max_examples: int | None = None) -> list[dict]:
     rows: list[dict] = []
     if _HAS_DATASETS:
         try:
-            ds = load_dataset("apple/mkqa", split="train", trust_remote_code=True)
+            ds = load_dataset("apple/mkqa", split="train", trust_remote_code=True, token=os.getenv("HF_TOKEN"))
             for i, row in enumerate(ds):
                 if max_examples is not None and i >= max_examples:
                     break

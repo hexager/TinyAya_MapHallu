@@ -6,8 +6,12 @@ Returns a flat list of sample dicts with consistent schema.
 """
 
 import logging
+import os
 
 from datasets import load_dataset
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +42,7 @@ def load_xnli(languages: list[str], num_samples: int | None = 300, seed: int = 4
         if lang not in XNLI_LANGUAGES:
             logger.warning("Skipping language '%s' — not available in XNLI. Valid: %s", lang, sorted(XNLI_LANGUAGES))
             continue
-        ds = load_dataset("xnli", lang, split="test")
+        ds = load_dataset("xnli", lang, split="test", token=os.getenv("HF_TOKEN"))
         n = len(ds) if num_samples is None else min(num_samples, len(ds))
         for i in range(n):
             rows.append({
