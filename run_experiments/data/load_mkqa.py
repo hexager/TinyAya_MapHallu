@@ -7,9 +7,12 @@ Returns a flat list of sample dicts with consistent schema.
 
 import gzip
 import json
+import logging
 import random
 import urllib.request
 from typing import List
+
+logger = logging.getLogger(__name__)
 
 try:
     from datasets import load_dataset
@@ -19,6 +22,12 @@ except ImportError:
 
 MKQA_URL = "https://github.com/apple/ml-mkqa/raw/main/dataset/mkqa.jsonl.gz"
 _EXCLUDED_ANSWER_TYPES = {"unanswerable"}
+
+MKQA_LANGUAGES = {
+    "ar", "da", "de", "en", "es", "fi", "fr", "he", "hu", "it", "ja",
+    "km", "ko", "ms", "nl", "no", "pl", "pt", "ru", "sv", "th", "tr",
+    "vi", "zh_cn", "zh_hk", "zh_tw",
+}
 
 
 def _has_valid_gold_answer(ans: list) -> bool:
@@ -89,11 +98,16 @@ def load_mkqa(languages: list[str], num_samples: int | None = 500, seed: int = 4
     else:
         sampled = random.sample(raw, min(num_samples, len(raw)))
 
+    unsupported = [l for l in languages if l not in MKQA_LANGUAGES]
+    if unsupported:
+        logger.warning("Skipping languages not available in MKQA: %s. Valid: %s", unsupported, sorted(MKQA_LANGUAGES))
+    valid_languages = [l for l in languages if l in MKQA_LANGUAGES]
+
     rows = []
     for idx, s in enumerate(sampled):
         queries = s.get("queries") or {}
         answers = s.get("answers") or {}
-        for lang in languages:
+        for lang in valid_languages:
             q = (queries.get(lang) or queries.get("en") or "").strip()
             if not q:
                 continue

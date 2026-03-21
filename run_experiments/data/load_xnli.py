@@ -5,10 +5,16 @@ Adapted from CMDR/CMDR.py load_multilingual_data().
 Returns a flat list of sample dicts with consistent schema.
 """
 
+import logging
+
 from datasets import load_dataset
+
+logger = logging.getLogger(__name__)
 
 # XNLI integer label → string
 _LABEL_MAP = {0: "entailment", 1: "neutral", 2: "contradiction"}
+
+XNLI_LANGUAGES = {"ar", "bg", "de", "el", "en", "es", "fr", "hi", "ru", "sw", "th", "tr", "ur", "vi", "zh"}
 
 
 def load_xnli(languages: list[str], num_samples: int | None = 300, seed: int = 42) -> list[dict]:
@@ -29,6 +35,9 @@ def load_xnli(languages: list[str], num_samples: int | None = 300, seed: int = 4
     """
     rows = []
     for lang in languages:
+        if lang not in XNLI_LANGUAGES:
+            logger.warning("Skipping language '%s' — not available in XNLI. Valid: %s", lang, sorted(XNLI_LANGUAGES))
+            continue
         ds = load_dataset("xnli", lang, split="test")
         n = len(ds) if num_samples is None else min(num_samples, len(ds))
         for i in range(n):
