@@ -1,9 +1,6 @@
 import cohere
 from dotenv import load_dotenv
 import os
-import json
-import time
-from uuid import uuid4
 
 # Load .env file
 load_dotenv()
@@ -49,48 +46,9 @@ def get_text_from_response(response):
 
 def get_logprobs_from_response(response):
     '''Function to extract the logprobs from the full response returned by the query_model function.'''
-    # region agent log
-    _debug_log(
-        run_id="baseline",
-        hypothesis_id="H3",
-        location="helpers.py:get_logprobs_from_response:entry",
-        message="Inspect response logprobs availability",
-        data={
-            "response_type": type(response).__name__,
-            "has_logprobs": hasattr(response, "logprobs"),
-        },
-    )
-    # endregion
     if hasattr(response, "logprobs"):
         log_probabilities = response.logprobs
-        # region agent log
-        _debug_log(
-            run_id="baseline",
-            hypothesis_id="H2",
-            location="helpers.py:get_logprobs_from_response:has_logprobs",
-            message="Inspect raw logprobs container",
-            data={
-                "container_type": type(log_probabilities).__name__,
-                "container_len": len(log_probabilities) if hasattr(log_probabilities, "__len__") else None,
-                "first_item_type": type(log_probabilities[0]).__name__
-                if hasattr(log_probabilities, "__len__") and len(log_probabilities) > 0
-                else None,
-                "first_item_attrs": sorted([a for a in dir(log_probabilities[0]) if not a.startswith("_")])[:20]
-                if hasattr(log_probabilities, "__len__") and len(log_probabilities) > 0
-                else [],
-            },
-        )
-        # endregion
         return log_probabilities
     else:
         print('No logprobs found in response.')
-        # region agent log
-        _debug_log(
-            run_id="baseline",
-            hypothesis_id="H4",
-            location="helpers.py:get_logprobs_from_response:no_logprobs",
-            message="Response missing logprobs attribute",
-            data={"response_type": type(response).__name__},
-        )
-        # endregion
         return None

@@ -1,0 +1,16 @@
+# Default configuration for run_experiments
+temperature: 0.3
+max_tokens: 512
+num_dataset_samples: 300
+nreps: 1
+seed: 42
+experiments:
+  - base
+  - pss
+datasets:
+  - xnli
+  - mkqa
+models:
+  - tiny-aya-global
+languages:
+  - en

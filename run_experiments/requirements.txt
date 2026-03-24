@@ -1,0 +1,6 @@
+cohere>=5.0
+datasets
+numpy
+python-dotenv
+pyyaml
+tqdm
